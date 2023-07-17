@@ -1,5 +1,7 @@
-#pragma once
-#include "vex.h"
+#pragma once // Redundant but makes the linter shut up
+#ifndef _JAR_PID_H_
+#define _JAR_PID_H_
+#include "main.h"
 
 class PID
 {
@@ -26,3 +28,5 @@ public:
 
   bool is_settled();
 };
+
+#endif // _JAR_PID_H_

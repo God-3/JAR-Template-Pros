@@ -1,7 +1,4 @@
-#include "vex.h"
-
-using namespace vex;
-competition Competition;
+#include "main.h"
 
 /*---------------------------------------------------------------------------*/
 /*                             VEXcode Config                                */
@@ -32,13 +29,13 @@ ZERO_TRACKER_NO_ODOM,
 //You will input whatever motor names you chose when you configured your robot using the sidebar configurer, they don't have to be "Motor1" and "Motor2".
 
 //Left Motors:
-motor_group(),
+pros::Motor_Group({1, 2}),
 
 //Right Motors:
-motor_group(),
+pros::Motor_Group({3, 4}),
 
-//Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT1,
+//Specify the PORT NUMBER of your inertial sensor as an integer:
+5,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
 3.25,
@@ -63,11 +60,11 @@ PORT1,
 //If you are using ZERO_TRACKER_ODOM, you ONLY need to adjust the FORWARD TRACKER CENTER DISTANCE.
 
 //FOR HOLONOMIC DRIVES ONLY: Input your drive motors by position. This is only necessary for holonomic drives, otherwise this section can be left alone.
-//LF:      //RF:    
-PORT1,     -PORT2,
+//LF:    //RF:    
+1,       -2,
 
-//LB:      //RB: 
-PORT3,     -PORT4,
+//LB:    //RB: 
+3,       -4,
 
 //If you are using position tracking, this is the Forward Tracker port (the tracker which runs parallel to the direction of the chassis).
 //If this is a rotation sensor, enter it in "PORT1" format, inputting the port below.
@@ -96,46 +93,46 @@ PORT3,     -PORT4,
 int current_auton_selection = 0;
 bool auto_started = false;
 
-void pre_auton(void) {
+void competition_initialize(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
-  vexcodeInit();
   default_constants();
 
   while(auto_started == false){            //Changing the names below will only change their names on the
-    Brain.Screen.clearScreen();            //brain screen for auton selection.
+    pros::screen::erase();                 //brain screen for auton selection.
     switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
       case 0:
-        Brain.Screen.printAt(50, 50, "Drive Test");
+        pros::screen::print(TEXT_MEDIUM, 50, 50, "Drive Test");
         break;
       case 1:
-        Brain.Screen.printAt(50, 50, "Drive Test");
+        pros::screen::print(TEXT_MEDIUM, 50, 50, "Drive Test");
         break;
       case 2:
-        Brain.Screen.printAt(50, 50, "Turn Test");
+        pros::screen::print(TEXT_MEDIUM, 50, 50, "Turn Test");
         break;
       case 3:
-        Brain.Screen.printAt(50, 50, "Swing Test");
+        pros::screen::print(TEXT_MEDIUM, 50, 50, "Swing Test");
         break;
       case 4:
-        Brain.Screen.printAt(50, 50, "Full Test");
+        pros::screen::print(TEXT_MEDIUM, 50, 50, "Full Test");
         break;
       case 5:
-        Brain.Screen.printAt(50, 50, "Odom Test");
+        pros::screen::print(TEXT_MEDIUM, 50, 50, "Odom Test");
         break;
       case 6:
-        Brain.Screen.printAt(50, 50, "Tank Odom Test");
+        pros::screen::print(TEXT_MEDIUM, 50, 50, "Tank Odom Test");
         break;
       case 7:
-        Brain.Screen.printAt(50, 50, "Holonomic Odom Test");
+        pros::screen::print(TEXT_MEDIUM, 50, 50, "Holonomic Odom Test");
         break;
     }
-    if(Brain.Screen.pressing()){
-      while(Brain.Screen.pressing()) {}
+    if(pros::screen::touch_status().touch_status == TOUCH_PRESSED || pros::screen::touch_status().touch_status == TOUCH_HELD ){
+      pros::last_touch_e_t status = pros::screen::touch_status().touch_status;
+      while(status == TOUCH_HELD) {}
       current_auton_selection ++;
     } else if (current_auton_selection == 8){
       current_auton_selection = 0;
     }
-    task::sleep(10);
+    pros::Task::delay(10);
   }
 }
 
@@ -179,7 +176,7 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-void usercontrol(void) {
+void opcontrol(void) {
   // User control code here, inside the loop
   while (1) {
     // This is the main execution loop for the user control program.
@@ -193,26 +190,9 @@ void usercontrol(void) {
 
     //Replace this line with chassis.control_tank(); for tank drive 
     //or chassis.control_holonomic(); for holo drive.
-    chassis.control_arcade();
+    chassis.control_tank();
 
-    wait(20, msec); // Sleep the task for a short amount of time to
+    pros::delay(20); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
-  }
-}
-
-//
-// Main will set up the competition functions and callbacks.
-//
-int main() {
-  // Set up callbacks for autonomous and driver control periods.
-  Competition.autonomous(autonomous);
-  Competition.drivercontrol(usercontrol);
-
-  // Run the pre-autonomous function.
-  pre_auton();
-
-  // Prevent main from exiting with an infinite loop.
-  while (true) {
-    wait(100, msec);
   }
 }

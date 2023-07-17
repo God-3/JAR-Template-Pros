@@ -1,4 +1,4 @@
-#include "vex.h"
+#include "main.h"
 
 void Odom::set_physical_distances(float ForwardTracker_center_distance, float SidewaysTracker_center_distance){
   this->ForwardTracker_center_distance = ForwardTracker_center_distance;

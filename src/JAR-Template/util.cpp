@@ -1,4 +1,4 @@
-#include "vex.h"
+#include "main.h"
 
 // There is probably a more efficient way to reduce angles than the ones specified below,
 // but these work without question, and you really only have to reduce them once or twice at 

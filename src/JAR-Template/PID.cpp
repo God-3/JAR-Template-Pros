@@ -1,4 +1,4 @@
-#include "vex.h"
+#include "main.h"
 
 PID::PID(float error, float kp, float ki, float kd, float starti) :
   error(error),
