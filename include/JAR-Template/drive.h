@@ -114,7 +114,7 @@ public:
   void set_heading(float orientation_deg);
   void position_track();
   static int position_track_task();
-  pros::Task odom_task = pros::Task( NULL );
+  pros::Task odom_task = pros::Task([](){});
   float get_X_position();
   float get_Y_position();
 

@@ -1,4 +1,5 @@
-> **Warning** This fork is not in a functional state yet, though it will hopefully be in one soon
+| WARNING: This fork is now in a theoretically functional state but has not been tested extensively. If you find any bugs, feel free to make a bug report (or submit a pull request, since I am still learning c++ and can't guarantee how actively I'll contribute to this). |
+| --- |
 
 # JAR-Template
 A simple and powerful VexCode Pro V5 library featuring PID, odometry, and custom motion algorithms. 
