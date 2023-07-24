@@ -51,6 +51,10 @@ float to_volt(float percent){
   return(percent*12.0/100.0);
 }
 
+float to_mili_volt(float percent){
+  return(percent*120.0);
+}
+
 int to_port(int port){
   if(port>8){
     return(0);
