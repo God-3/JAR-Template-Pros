@@ -1,12 +1,6 @@
 #include "main.h"
 
-std::vector<std::int8_t> convert_vuint_to_vint (std::vector<std::uint8_t> oldVector) {
-  std::vector<std::int8_t> newVector;
-  std::copy(begin(oldVector), end(oldVector), begin(newVector));
-  return newVector;
-}
-
-Drive::Drive(enum::drive_setup_enum drive_setup, pros::Motor_Group DriveL, pros::Motor_Group DriveR, int gyro_port, float wheel_diameter, float wheel_ratio, float gyro_scale, int DriveLF_port, int DriveRF_port, int DriveLB_port, int DriveRB_port, int ForwardTracker_port, float ForwardTracker_diameter, float ForwardTracker_center_distance, int SidewaysTracker_port, float SidewaysTracker_diameter, float SidewaysTracker_center_distance) :
+Drive::Drive(enum::drive_setup_enum drive_setup, std::initializer_list<std::int8_t> DriveL, std::initializer_list<std::int8_t> DriveR, int gyro_port, float wheel_diameter, float wheel_ratio, float gyro_scale, int DriveLF_port, int DriveRF_port, int DriveLB_port, int DriveRB_port, int ForwardTracker_port, float ForwardTracker_diameter, float ForwardTracker_center_distance, int SidewaysTracker_port, float SidewaysTracker_diameter, float SidewaysTracker_center_distance) :
   wheel_diameter(wheel_diameter),
   wheel_ratio(wheel_ratio),
   gyro_scale(gyro_scale),
@@ -18,8 +12,8 @@ Drive::Drive(enum::drive_setup_enum drive_setup, pros::Motor_Group DriveL, pros:
   SidewaysTracker_diameter(SidewaysTracker_diameter),
   SidewaysTracker_in_to_deg_ratio(M_PI*SidewaysTracker_diameter/360.0),
   drive_setup(drive_setup),
-  DriveL(convert_vuint_to_vint(DriveL.get_ports())),
-  DriveR(convert_vuint_to_vint(DriveR.get_ports())),
+  DriveL(DriveL),
+  DriveR(DriveR),
   //Every device below is passed by port rather than passing the object.
   //This ensures that the devices work properly.
   Gyro(pros::Imu(gyro_port)),
