@@ -441,6 +441,15 @@ void Drive::control_tank(){
   DriveR.move_voltage(to_mili_volt(rightthrottle));
 }
 
+void Drive::control_alt_tank(){
+  float leftY = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_LEFT_Y)*100.0/127.0, 5);
+  float leftX = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_LEFT_X)*100.0/127.0, 5);
+  float rightY = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_RIGHT_Y)*100.0/127.0, 5);
+  float rightX = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_RIGHT_X)*100.0/127.0, 5);
+  DriveL.move_voltage(to_mili_volt((leftY + leftX)/std::sqrt(2)));
+  DriveR.move_voltage(to_mili_volt((rightY + rightX)/std::sqrt(2)));
+}
+
 int Drive::position_track_task(){
   chassis.position_track();
   return(0);

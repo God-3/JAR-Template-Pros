@@ -136,6 +136,7 @@ public:
 
   void control_arcade();
   void control_tank();
+  void control_alt_tank();
   void control_holonomic();
 };
 
