@@ -418,27 +418,27 @@ void Drive::holonomic_drive_to_point(float X_position, float Y_position, float a
 // but it can be changed with no repercussions.
 
 void Drive::control_arcade(){
-  float throttle = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_LEFT_Y), 5);
-  float turn = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_RIGHT_X), 5);
-  DriveL.move_voltage(to_volt(throttle+turn));
-  DriveR.move_voltage(to_volt(throttle-turn));
+  float throttle = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_LEFT_Y)*100.0/127.0, 5);
+  float turn = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_RIGHT_X)*100.0/127.0, 5);
+  DriveL.move_voltage(to_mili_volt(throttle+turn));
+  DriveR.move_voltage(to_mili_volt(throttle-turn));
 }
 
 void Drive::control_holonomic(){
-  float throttle = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_LEFT_Y), 5);
-  float turn = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_RIGHT_X), 5);
-  float strafe = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_LEFT_X), 5);
-  DriveLF.move_voltage(to_volt(throttle+turn+strafe));
-  DriveRF.move_voltage(to_volt(throttle-turn-strafe));
-  DriveLB.move_voltage(to_volt(throttle+turn-strafe));
-  DriveRB.move_voltage(to_volt(throttle-turn+strafe));
+  float throttle = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_LEFT_Y)*100.0/127.0, 5);
+  float turn = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_RIGHT_X)*100.0/127.0, 5);
+  float strafe = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_LEFT_X)*100.0/127.0, 5);
+  DriveLF.move_voltage(to_mili_volt(throttle+turn+strafe));
+  DriveRF.move_voltage(to_mili_volt(throttle-turn-strafe));
+  DriveLB.move_voltage(to_mili_volt(throttle+turn-strafe));
+  DriveRB.move_voltage(to_mili_volt(throttle-turn+strafe));
 }
 
 void Drive::control_tank(){
-  float leftthrottle = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_LEFT_Y), 5);
-  float rightthrottle = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_RIGHT_Y), 5);
-  DriveL.move_voltage(to_volt(leftthrottle));
-  DriveR.move_voltage(to_volt(rightthrottle));
+  float leftthrottle = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_LEFT_Y)*100.0/127.0, 5);
+  float rightthrottle = deadband(pros::Controller(CONTROLLER_MASTER).get_analog(ANALOG_RIGHT_Y)*100.0/127.0, 5);
+  DriveL.move_voltage(to_mili_volt(leftthrottle));
+  DriveR.move_voltage(to_mili_volt(rightthrottle));
 }
 
 int Drive::position_track_task(){
