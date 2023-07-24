@@ -1,3 +1,5 @@
+#pragma once
+#ifndef _USER_PID_HPP
 #include "main.h"
 
 PID::PID(float error, float kp, float ki, float kd, float starti) :
@@ -52,3 +54,5 @@ bool PID::is_settled(){
   }
   return(false);
 }
+
+#endif
